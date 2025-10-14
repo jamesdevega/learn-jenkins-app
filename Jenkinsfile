@@ -23,6 +23,7 @@ pipeline {
             steps{
                 sh '''
                     echo "Test stage"
+                    npm test
                 '''
                 script{
                     if(fileExists('build/index.html')){
