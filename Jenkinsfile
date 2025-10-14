@@ -23,6 +23,7 @@ pipeline {
             steps{
                 sh '''
                     echo "Test stage"
+                    npm ci
                     npm test
                 '''
                 script{
