@@ -22,12 +22,7 @@ pipeline {
         stage('Test'){
             sh '''
                 echo "Test stage"
-                if(fileExists("build/index.html")){
-                    echo "File exist in ""build/index.html"""
-                }
-                else{
-                    echo "File does not exist in ""build/index.html"""
-                }
+                
             '''
         }
     }
