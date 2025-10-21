@@ -38,6 +38,25 @@ pipeline {
                 
             }
         }
+
+        stage('E2E'){
+
+            agent{
+                docker{
+                image 'docker pull mcr.microsoft.com/playwright:v1.56.1-noble'
+                reuseNode true
+                }
+            }
+
+            steps{
+                sh '''
+                    npm install -g serve
+                    serve -s build
+                    npx playwright test
+                '''
+                
+            }
+        }
     }
     post{
         always{
@@ -45,3 +64,5 @@ pipeline {
         }
     }
 }
+//npm install -g serve to start and install a simple webserver
+// serve -s build to run the page in the server
