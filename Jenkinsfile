@@ -40,12 +40,9 @@ pipeline {
         }
 
         stage('E2E'){
-            steps{
-            sh '''
-                npm install playwright@1.39.0
-            '''
-            }
+            
             agent{
+                sh 'npm install playwright@1.39.0'
                 docker{
                 image 'mcr.microsoft.com/playwright:v1.39.0-noble'
                 reuseNode true
