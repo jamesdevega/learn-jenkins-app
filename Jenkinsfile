@@ -35,7 +35,7 @@ pipeline {
                     #test -f build/index.html
                     npm test
                     echo "Install Playwright"
-                    npm install playwright@1.39.0
+                    npm install playwright@1.39.0-noble
                 '''
                 
             }
