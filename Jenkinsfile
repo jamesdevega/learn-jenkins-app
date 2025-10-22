@@ -35,7 +35,7 @@ pipeline {
                     #test -f build/index.html
                     npm test
                     echo "Install Playwright"
-                    npm install playwright@1.39.0-noble
+                    npm install playwright@1.39.0
                 '''
                 
             }
@@ -45,7 +45,7 @@ pipeline {
             
             agent{
                 docker{
-                image 'mcr.microsoft.com/playwright:v1.39.0-noble'
+                image 'mcr.microsoft.com/playwright:v1.39.0'
                 reuseNode true
                 }
             }
