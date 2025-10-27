@@ -21,45 +21,54 @@ pipeline {
             }
         }
         */
-        stage('Test'){
+        stage('Tests'){
+            parallel{
+                stage('Unit Test'){
 
-            agent{
-                docker{
-                image 'node:18-alpine'
-                reuseNode true
+                    agent{
+                        docker{
+                        image 'node:18-alpine'
+                        reuseNode true
+                        }
+                    }
+
+                    steps{
+                        sh '''
+                            #test -f build/index.html
+                            npm test
+                        '''
+                        
+                    }
                 }
-            }
 
-            steps{
-                sh '''
-                    #test -f build/index.html
-                    npm test
-                    echo "Install Playwright"
-                    npm install playwright@1.39.0
-                '''
-                
+                stage('E2E'){
+                    steps{
+                        sh '''
+                            echo "Install Playwright"
+                            npm install playwright@1.39.0
+                        '''
+                    }
+                    agent{
+                        docker{
+                        image 'mcr.microsoft.com/playwright:v1.39.0'
+                        reuseNode true
+                        }
+                    }
+
+                    steps{
+                        sh '''
+                            npm install serve
+                            node_modules/.bin/serve -s build & 
+                            sleep 10
+                            npx playwright test --reporter=html
+                        '''
+                        
+                    }
+                }
             }
         }
 
-        stage('E2E'){
-            
-            agent{
-                docker{
-                image 'mcr.microsoft.com/playwright:v1.39.0'
-                reuseNode true
-                }
-            }
-
-            steps{
-                sh '''
-                    npm install serve
-                    node_modules/.bin/serve -s build & 
-                    sleep 10
-                    npx playwright test --reporter=html
-                '''
-                
-            }
-        }
+        
     }
     post{
         always{
