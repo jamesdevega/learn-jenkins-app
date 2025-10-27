@@ -42,12 +42,6 @@ pipeline {
                 }
 
                 stage('E2E'){
-                    steps{
-                        sh '''
-                            echo "Install Playwright"
-                            npm install playwright@1.39.0
-                        '''
-                    }
                     agent{
                         docker{
                         image 'mcr.microsoft.com/playwright:v1.39.0'
@@ -57,6 +51,8 @@ pipeline {
 
                     steps{
                         sh '''
+                            echo "Install Playwright"
+                            npm install playwright@1.39.0
                             npm install serve
                             node_modules/.bin/serve -s build & 
                             sleep 10
